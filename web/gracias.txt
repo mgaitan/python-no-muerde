@@ -1,5 +1,0 @@
-restindex
-encoding: utf8
-/restindex
-
-.. include:: ../gracias.txt
