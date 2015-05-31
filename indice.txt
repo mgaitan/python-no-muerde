@@ -1,34 +1,40 @@
+.. Python no muerde documentation master file, created by
+   sphinx-quickstart on Sat May 30 22:45:57 2015.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+
+.. image:: cover.svg
+
+
 .. include:: intro.txt
 
-.. include:: contents.txt
 
-.. include:: 1.txt
+Tabla de contenidos
+===================
 
-.. include:: 2.txt
+.. toctree::
+   :maxdepth: 2
 
-.. include:: 3.txt
+   1
+   2
+   3
+   4
+   5
+   6
+   7
+   8
+   9
+   10
+   11
+   12
+   licencia
+   gracias
+   metalibro
 
-.. include:: 4.txt
+Índice Temático
+================
 
-.. include:: 5.txt
-
-.. include:: 6.txt
-
-.. include:: 7.txt
-
-.. include:: 8.txt
-
-.. include:: 9.txt
-
-.. include:: 10.txt
-
-.. include:: 11.txt
-
-.. include:: 12.txt
-
-.. include:: licencia.txt
-
-.. include:: gracias.txt
-
-.. include:: metalibro.txt
+* :ref:`genindex`
+* :ref:`search`
 

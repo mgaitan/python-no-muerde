@@ -1,219 +1,192 @@
-DOC=python_no_muerde.pdf
+# Makefile for Sphinx documentation
+#
 
-FIGURAS=dependencias.graph.pdf\
-	 loop-n-y-medio.graph.pdf\
-         middleware1.graph.pdf\
-         middleware2.graph.pdf\
-	 by.svg.pdf\
-         cc.svg.pdf\
-         cover.svg.pdf\
-         nc.svg.pdf\
-         remix.svg.pdf\
-         sa.svg.pdf\
-         share.svg.pdf\
-         gaso3-api.pdf         
+# You can set these variables from the command line.
+SPHINXOPTS    =
+SPHINXBUILD   = sphinx-build
+PAPER         =
+BUILDDIR      = .build
 
-FIGURAS_WEB=dependencias.graph.png\
-            loop-n-y-medio.graph.png\
-            middleware1.graph.png\
-            middleware2.graph.png\
-	    by.svg.png\
-            cc.svg.png\
-            cover.svg.png\
-            nc.svg.png\
-            remix.svg.png\
-            sa.svg.png\
-            share.svg.png\
-            gaso3-api.png
+# User-friendly check for sphinx-build
+ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
+$(error The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed, then set the SPHINXBUILD environment variable to point to the full path of the '$(SPHINXBUILD)' executable. Alternatively you can add the directory with the executable to your PATH. If you don't have Sphinx installed, grab it from http://sphinx-doc.org/)
+endif
 
-SCREENSHOTS=pyurl1-1.print.jpg\
-	 pyurl2-1.print.jpg\
-	 pyurl2-2.print.jpg\
-	 pyurl2-3.print.jpg\
-	 pyurl2-4.print.jpg\
-	 pyurl3-1.print.jpg\
-	 pyurl3-2.print.jpg\
-	 pyurl3-3.print.jpg\
-         pyurl-production.print.jpg\
-         radio-1.print.jpg\
-         radio-2.print.jpg\
-         radio-3.print.jpg\
-         radio-4.print.jpg\
-         radio-5.print.jpg\
-         radio-6.print.jpg\
-         radio-7.print.jpg\
-         radio-8.print.jpg\
-         radio-9.print.jpg\
-         radio-10.print.jpg\
-         radio-11.print.jpg\
-         radio-12.print.jpg\
-         radio-13.print.jpg\
-         radio-14.print.jpg\
-         radio-15.print.jpg\
-         radio-16.print.jpg\
-         radio-17.print.jpg\
-         radio-18.print.jpg\
-         radio-19.print.jpg\
-         radio-20.print.jpg\
-         radio-21.print.jpg\
-         radio-22.print.jpg\
-         radio-23.print.jpg\
-         radio-24.print.jpg\
-         radio-25.print.jpg\
-         linguist-1.print.jpg\
-         linguist-2.print.jpg\
-         linguist-3.print.jpg
-       
+# Internal variables.
+PAPEROPT_a4     = -D latex_paper_size=a4
+PAPEROPT_letter = -D latex_paper_size=letter
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+# the i18n builder cannot share the environment and doctrees with the others
+I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-CAPITULOS=intro.txt 1.txt 2.txt 3.txt 4.txt 5.txt 6.txt 7.txt 8.txt 9.txt 10.txt 11.txt 12.txt licencia.txt gracias.txt metalibro.txt
-CAPITULOS_PDF=intro.pdf 1.pdf 2.pdf 3.pdf 4.pdf 5.pdf 6.pdf 7.pdf 8.pdf 9.pdf 10.pdf 11.pdf 12.pdf licencia.pdf gracias.pdf metalibro.pdf
-LISTADOS=codigo/4/gaso1.py\
-         codigo/4/gaso2.py\
-         codigo/4/gaso3.py\
-	 codigo/2/pyurl1.py\
-	 codigo/2/pyurl2.py\
-	 codigo/2/pyurl3.py\
-	 codigo/2/views/usuario.tpl
+.PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest coverage gettext
 
+help:
+	@echo "Please use \`make <target>' where <target> is one of"
+	@echo "  html       to make standalone HTML files"
+	@echo "  dirhtml    to make HTML files named index.html in directories"
+	@echo "  singlehtml to make a single large HTML file"
+	@echo "  pickle     to make pickle files"
+	@echo "  json       to make JSON files"
+	@echo "  htmlhelp   to make HTML files and a HTML help project"
+	@echo "  qthelp     to make HTML files and a qthelp project"
+	@echo "  applehelp  to make an Apple Help Book"
+	@echo "  devhelp    to make HTML files and a Devhelp project"
+	@echo "  epub       to make an epub"
+	@echo "  latex      to make LaTeX files, you can set PAPER=a4 or PAPER=letter"
+	@echo "  latexpdf   to make LaTeX files and run them through pdflatex"
+	@echo "  latexpdfja to make LaTeX files and run them through platex/dvipdfmx"
+	@echo "  text       to make text files"
+	@echo "  man        to make manual pages"
+	@echo "  texinfo    to make Texinfo files"
+	@echo "  info       to make Texinfo files and run them through makeinfo"
+	@echo "  gettext    to make PO message catalogs"
+	@echo "  changes    to make an overview of all changed/added/deprecated items"
+	@echo "  xml        to make Docutils-native XML files"
+	@echo "  pseudoxml  to make pseudoxml-XML files for display purposes"
+	@echo "  linkcheck  to check all external links for integrity"
+	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
+	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 
-%.print.jpg: %.screen.png
-	convert -resize 1600 $< $@
+clean:
+	rm -rf $(BUILDDIR)/*
 
-%.svg.pdf: %.svg
-	inkscape $< --export-pdf=$@ 
+html:
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-%.svg.png: %.svg
-	inkscape $< --export-png=$@ 
+dirhtml:
+	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/dirhtml."
 
-%.pdf: %.txt estilo.style Makefile tapa-capitulo.tmpl
-	rst2pdf -l es_ES -b0 --smart-quotes=1 -s eightpoint,bw,estilo $< -o $@ --custom-cover=tapa-capitulo.tmpl --fit-literal-mode=shrink --inline-footnotes --date-invariant
+singlehtml:
+	$(SPHINXBUILD) -b singlehtml $(ALLSPHINXOPTS) $(BUILDDIR)/singlehtml
+	@echo
+	@echo "Build finished. The HTML page is in $(BUILDDIR)/singlehtml."
 
-python_no_muerde.pdf: tapa.tmpl indice.txt ${CAPITULOS} ${FIGURAS} Makefile estilo.style ${LISTADOS} ${SCREENSHOTS}
-	rst2pdf -l es_ES -b1 --smart-quotes=1 -s eightpoint,bw,estilo,tapa indice.txt -o python_no_muerde.pdf --custom-cover=tapa.tmpl --inline-footnotes --date-invariant
+pickle:
+	$(SPHINXBUILD) -b pickle $(ALLSPHINXOPTS) $(BUILDDIR)/pickle
+	@echo
+	@echo "Build finished; now you can process the pickle files."
 
-sitio: .phony ${FIGURAS_WEB} fuentes.zip ${CAPITULOS}
-	(cd web ; ln -sf ../codigo .)
-	(cd sitio ; ln -sf ../*.graph.png ../*.pdf ../*screen.png ../fuentes.zip ../*api.png ../concord.jpg .)
-	(for C in ${CAPITULOS}; do touch -r $$C web/$$C ; done)
-	python2 r2w.py rst2web.ini
-	(cd sitio; sed --in-place 's/graph\.pdf/graph\.png/g' *html)
-	(cd sitio; sed --in-place 's/print\.jpg/screen\.png/g' *html)
-	(cd sitio; sed --in-place 's/api\.pdf/api\.png/g' *html)
-	(cd sitio; sed --in-place 's/filenew\.pdf/filenew\.png/g' *html)
+json:
+	$(SPHINXBUILD) -b json $(ALLSPHINXOPTS) $(BUILDDIR)/json
+	@echo
+	@echo "Build finished; now you can process the JSON files."
 
-commit:
-	touch indice.txt ; make python_no_muerde.pdf
-	hg commit python_no_muerde.pdf -m "PDF actualizado"
-	hg commit
-	hg push
-        rsync -rvL --delete sitio/* ralsina@lateral.netmanagers.com.ar:/srv/www/nomuerde
+htmlhelp:
+	$(SPHINXBUILD) -b htmlhelp $(ALLSPHINXOPTS) $(BUILDDIR)/htmlhelp
+	@echo
+	@echo "Build finished; now you can run HTML Help Workshop with the" \
+	      ".hhp project file in $(BUILDDIR)/htmlhelp."
 
-commit-web: sitio ${CAPITULOS_PDF}
-	hg commit || true
-	hg push
-	rsync -rvL --delete sitio/* ralsina@lateral.netmanagers.com.ar:/srv/www/nomuerde
+qthelp:
+	$(SPHINXBUILD) -b qthelp $(ALLSPHINXOPTS) $(BUILDDIR)/qthelp
+	@echo
+	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
+	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/Pythonnomuerde.qhcp"
+	@echo "To view the help file:"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/Pythonnomuerde.qhc"
 
-fuentes.zip: .phony
-	find codigo -name "*~" -exec rm {} \;
-	zip -r fuentes.zip codigo/ -x "codigo/2/nonces/*" "codigo/2/associations/*"\
-	 "codigo/2/*sqlite" "*pyc" "*~" "temp" ".tox"
+applehelp:
+	$(SPHINXBUILD) -b applehelp $(ALLSPHINXOPTS) $(BUILDDIR)/applehelp
+	@echo
+	@echo "Build finished. The help book is in $(BUILDDIR)/applehelp."
+	@echo "N.B. You won't be able to view it unless you put it in" \
+	      "~/Library/Documentation/Help or install it in your application" \
+	      "bundle."
 
-dependencias.graph.pdf: dependencias.dot
-	neato -Tpdf $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+devhelp:
+	$(SPHINXBUILD) -b devhelp $(ALLSPHINXOPTS) $(BUILDDIR)/devhelp
+	@echo
+	@echo "Build finished."
+	@echo "To view the help file:"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/Pythonnomuerde"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/Pythonnomuerde"
+	@echo "# devhelp"
 
-dependencias.graph.png: dependencias.dot
-	neato -Tpng $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+epub:
+	$(SPHINXBUILD) -b epub $(ALLSPHINXOPTS) $(BUILDDIR)/epub
+	@echo
+	@echo "Build finished. The epub file is in $(BUILDDIR)/epub."
 
-middleware1.graph.pdf: middleware1.dot
-	dot -Tpdf $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+latex:
+	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
+	@echo
+	@echo "Build finished; the LaTeX files are in $(BUILDDIR)/latex."
+	@echo "Run \`make' in that directory to run these through (pdf)latex" \
+	      "(use \`make latexpdf' here to do that automatically)."
 
-middleware1.graph.png: middleware1.dot
-	dot -Tpng $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+latexpdf:
+	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
+	@echo "Running LaTeX files through pdflatex..."
+	$(MAKE) -C $(BUILDDIR)/latex all-pdf
+	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
 
-middleware2.graph.pdf: middleware2.dot
-	dot -Tpdf $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+latexpdfja:
+	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
+	@echo "Running LaTeX files through platex and dvipdfmx..."
+	$(MAKE) -C $(BUILDDIR)/latex all-pdf-ja
+	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
 
-middleware2.graph.png: middleware2.dot
-	dot -Tpng $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+text:
+	$(SPHINXBUILD) -b text $(ALLSPHINXOPTS) $(BUILDDIR)/text
+	@echo
+	@echo "Build finished. The text files are in $(BUILDDIR)/text."
 
-%.graph.pdf: %.dot
-	dot -Tpdf $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+man:
+	$(SPHINXBUILD) -b man $(ALLSPHINXOPTS) $(BUILDDIR)/man
+	@echo
+	@echo "Build finished. The manual pages are in $(BUILDDIR)/man."
 
-%.graph.png: %.dot
-	dot -Tpng $< > $@ -Efontname="DejaVu Sans" -Nfontname="DejaVu Sans"
+texinfo:
+	$(SPHINXBUILD) -b texinfo $(ALLSPHINXOPTS) $(BUILDDIR)/texinfo
+	@echo
+	@echo "Build finished. The Texinfo files are in $(BUILDDIR)/texinfo."
+	@echo "Run \`make' in that directory to run these through makeinfo" \
+	      "(use \`make info' here to do that automatically)."
 
-.phony:
-	true
+info:
+	$(SPHINXBUILD) -b texinfo $(ALLSPHINXOPTS) $(BUILDDIR)/texinfo
+	@echo "Running Texinfo files through makeinfo..."
+	make -C $(BUILDDIR)/texinfo info
+	@echo "makeinfo finished; the Info files are in $(BUILDDIR)/texinfo."
 
-2.pdf: 2.txt estilo.style codigo/2/pyurl1.py\
-       codigo/2/pyurl2.py codigo/2/pyurl3.py\
-       codigo/2/views/atajo.tpl\
-       codigo/2/views/usuario.tpl\
-       pyurl-production.print.jpg\
+gettext:
+	$(SPHINXBUILD) -b gettext $(I18NSPHINXOPTS) $(BUILDDIR)/locale
+	@echo
+	@echo "Build finished. The message catalogs are in $(BUILDDIR)/locale."
 
-1.pdf: 1.txt estilo.style codigo/1/deco1.py\
-       codigo/1/deco2.py \
-       codigo/1/deco.py \
-       codigo/1/esnumero.py \
-       codigo/1/singleton1.py
+changes:
+	$(SPHINXBUILD) -b changes $(ALLSPHINXOPTS) $(BUILDDIR)/changes
+	@echo
+	@echo "The overview file is in $(BUILDDIR)/changes."
 
-4.pdf: 4.txt estilo.style \
-	codigo/4/gaso1.py \
-	codigo/4/gaso2.py \
-	codigo/4/gaso3.py \
-	codigo/4/gaso4.py \
-	codigo/4/mock1.py \
-	codigo/4/mock2.py \
-        codigo/4/req.txt \
-        codigo/4/tox.ini \
-        codigo/4/setup.py\
-        codigo/4/jack1.py\
-        codigo/4/jack2.py\
-        codigo/4/jack3.py
+linkcheck:
+	$(SPHINXBUILD) -b linkcheck $(ALLSPHINXOPTS) $(BUILDDIR)/linkcheck
+	@echo
+	@echo "Link check complete; look for any errors in the above output " \
+	      "or in $(BUILDDIR)/linkcheck/output.txt."
 
+doctest:
+	$(SPHINXBUILD) -b doctest $(ALLSPHINXOPTS) $(BUILDDIR)/doctest
+	@echo "Testing of doctests in the sources finished, look at the " \
+	      "results in $(BUILDDIR)/doctest/output.txt."
 
-5.pdf: 5.txt\
-       radio-1.print.jpg\
-       radio-2.print.jpg\
-       radio-3.print.jpg\
-       radio-4.print.jpg\
-       radio-5.print.jpg\
-       radio-6.print.jpg\
-       radio-7.print.jpg\
-       radio-8.print.jpg\
-       radio-9.print.jpg\
-       radio-10.print.jpg\
-       radio-11.print.jpg\
-       radio-12.print.jpg\
-       radio-13.print.jpg\
-       codigo/5/radio1.py\
-       codigo/5/radio2.py\
-       codigo/5/radio3.py\
-       codigo/5/radio4.py\
-       codigo/5/plsparser.py
+coverage:
+	$(SPHINXBUILD) -b coverage $(ALLSPHINXOPTS) $(BUILDDIR)/coverage
+	@echo "Testing of coverage in the sources finished, look at the " \
+	      "results in $(BUILDDIR)/coverage/python.txt."
 
-6.pdf: 6.txt\
-       concord.jpg\
-       radio-14.print.jpg\
-       radio-15.print.jpg\
-       radio-16.print.jpg\
-       radio-17.print.jpg\
-       radio-18.print.jpg\
-       radio-19.print.jpg\
-       radio-20.print.jpg\
-       radio-21.print.jpg\
-       radio-22.print.jpg\
-       radio-23.print.jpg\
-       radio-24.print.jpg\
-       radio-25.print.jpg\
-       filenew.svg\
-       codigo/6/radio6.py\
-       codigo/6/radio7.py\
-       codigo/6/radio8.py\
-       codigo/6/radio9.py\
-       codigo/6/radio_es.ts\
-       codigo/6/Makefile\
-       linguist-1.print.jpg\
-       linguist-2.print.jpg\
-       linguist-3.print.jpg
+xml:
+	$(SPHINXBUILD) -b xml $(ALLSPHINXOPTS) $(BUILDDIR)/xml
+	@echo
+	@echo "Build finished. The XML files are in $(BUILDDIR)/xml."
 
+pseudoxml:
+	$(SPHINXBUILD) -b pseudoxml $(ALLSPHINXOPTS) $(BUILDDIR)/pseudoxml
+	@echo
+	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
